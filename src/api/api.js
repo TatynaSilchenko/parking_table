@@ -1,16 +1,13 @@
 import axios from "axios";
 
 export const instance = axios.create({
-    baseURL: "https://jsonplaceholder.typicode.com/",
+    baseURL: "http://31.24.93.27:11000/",
 });
 
 export const dataApi = {
-    getUsers() {
-        return instance.get("users")
+    getCars() {
+        return instance.get("api/cars/")
             .then(response => response.data)
     },
-    getPosts() {
-        return instance.get("posts")
-            .then(response => response.data)
-    }
+
 };

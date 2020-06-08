@@ -1,38 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
 .App {
+  height: 100vh;
+  width: 100vw;
+  margin: 0 auto;
   text-align: center;
+  background: linear-gradient(30deg, #212332 0%, #3c8bcb 70%);
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container-fluid {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 85%;
+  overflow: overlay;
+  margin-bottom: 20px;
+}
+.table{
+  width:80%!important;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.tableHead{
+  background: #f4f8f9;
+  color: #88a2b1;
+  font-family: 'Lato', sans-serif;
+  font-weight: 600!important;
+}
+.tableHead>.table td, .table th{
+border-top:none;
+}
+tr:hover{
+  background: #e7f4fa!important;
+}
+.fa-sort-up{
+  color: #000;
+}
+.pagination{
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.sortThWrapper{
+  display: flex;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/*td{*/
+/*overflow: hidden;*/
+/*  white-space: nowrap;*/
+/*}*/

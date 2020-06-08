@@ -1,3 +1,32 @@
-export const getSortColomn=(state)=>{
-    return  state.users.sort((a,b)=>a.id>b.id?1:-1)
+import {createSelector} from "reselect";
+
+export const getSortColomn1 = (state, column) => {
+    debugger
+    if (!column) return state.table.cars;
+    return state.cars.sort((a, b) => a.column > b.column ? 1 : -1)
 };
+export const sortSelector = state => state.table.sortParams;
+export const getCars = state => state.table.cars;
+
+export const getSortColomn = createSelector(getCars, sortSelector,
+    (cars, sortParams) => {
+        debugger
+        if (sortParams.dataField === "car_tenant") {
+            let sortDirection = sortParams.direction === "asc" ? 1 : -1;
+            const sortedData = [...cars].sort((a, b) => {
+                debugger
+                if (a[sortParams.dataField]?.name === b[sortParams.dataField]?.name) return 0;
+                return a[sortParams.dataField]?.name.toLowerCase() > b[sortParams.dataField]?.name.toLowerCase() ? sortDirection : sortDirection * -1
+            });
+               return sortedData
+        }
+        if (sortParams.dataField === "car_number") {
+            let sortDirection = sortParams.direction === "asc" ? 1 : -1;
+            const sortedData = [...cars].sort((a, b) => {
+                if (a[sortParams.dataField] === b[sortParams.dataField]) return 0;
+                return a[sortParams.dataField].trim().toLowerCase() > b[sortParams.dataField].trim().toLowerCase() ? sortDirection : sortDirection * -1
+            });
+            return sortedData
+        }
+        return cars
+    });
