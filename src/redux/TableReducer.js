@@ -4,6 +4,7 @@ const SET_ISLOADING = "TABLE/SET_ISLOADING";
 const SET_CARS = "TABLE/SET_CARS";
 const SET_CURRENT_PAGE = "TABLE/SET_CURRENT_PAGE";
 const SET_SORT_PARAMS = "TABLE/SET_SORT_PARAMS";
+const SET_TENANT_FILTER = "TABLE/SET_TENANT_FILTER";
 
 const initialState = {
     columns: {
@@ -33,6 +34,11 @@ const initialState = {
             label: "Model",
             width: "20%!important"
         },
+        parked: {
+            key: "parked",
+            label: "Parked",
+            width: "10%!important"
+        },
     },
     cars: [],
     isLoading: false,
@@ -41,7 +47,9 @@ const initialState = {
     sortParams:{
         dataField:"id",
         direction:"desc"
-    }
+    },
+    tenantFilter:"",
+    parkedFilter:""
 };
 
 const TableReducer = (state = initialState, action) => {
@@ -52,6 +60,8 @@ const TableReducer = (state = initialState, action) => {
             return {...state, cars: action.cars};
         case SET_CURRENT_PAGE:
             return {...state, currentPage: action.number};
+        case SET_TENANT_FILTER:
+            return {...state, tenantFilter: action.value};
         case SET_SORT_PARAMS:
             return {...state, sortParams: {...state.sortParams,dataField:action.column,
                     direction:state.sortParams.direction==="asc"?"desc":"asc"}};
@@ -65,12 +75,19 @@ export const setIsLoading = (value) => ({type: SET_ISLOADING, value});
 export const setCars = (cars) => ({type: SET_CARS, cars});
 export const setCurrentPage = (number) => ({type: SET_CURRENT_PAGE, number});
 export const setSortParams = (column) => ({type: SET_SORT_PARAMS, column});
+export const setTenantFilter = (value) => ({type: SET_TENANT_FILTER, value});
 
 export const getCars = () => async (dispatch) => {
     try {
         dispatch(setIsLoading(true));
-        const data = await dataApi.getCars();
-        dispatch(setCars(data));
+
+        const data =  await Promise.all([await dataApi.getCars(),await dataApi.getParkedCar()]) ;
+const cars=data[0];
+const parkedCars=data[1].data;
+const carsInfo=cars.map(car=>{ //todo:remove return
+return {...car,parked:parkedCars.some(c=>car.id===c.car)?"true":"false"}
+});
+        dispatch(setCars(carsInfo));
         dispatch(setIsLoading(false));
     } catch (e) {
         throw new Error(e)

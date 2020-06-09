@@ -2,9 +2,9 @@ import {connect} from "react-redux";
 import React, {useEffect} from "react";
 import Table from "./Table";
 import Spinner from "../../assets/Spinner/Spinner";
-import {getCars, setCurrentPage,setSortParams} from "../../redux/TableReducer";
+import {getCars, setCurrentPage, setSortParams, setTenantFilter} from "../../redux/TableReducer";
 import Pagination from "../Pagenation/Pagination";
-import {getSortColomn} from "../../redux/Selectors/selector";
+import {getFilteredCarCars} from "../../redux/Selectors/selector";
 
 const TableContainer = ({carsPerPage,cars,currentPage,...props}) => {
     //load data
@@ -16,7 +16,7 @@ const TableContainer = ({carsPerPage,cars,currentPage,...props}) => {
     //Get current posts
     const lastCarIndex = currentPage * carsPerPage;
     const firstCarIndex = lastCarIndex - carsPerPage;
-    const currentCars= cars?.slice(firstCarIndex, lastCarIndex);
+    const currentCars= cars&&cars.slice(firstCarIndex, lastCarIndex);
 
     //Change page
     const paginate = (number) => {
@@ -35,7 +35,7 @@ const TableContainer = ({carsPerPage,cars,currentPage,...props}) => {
 let mapStateToProps = (state) => {
     return {
         // cars: getSortColomn(state),
-        cars: getSortColomn(state),
+        cars: getFilteredCarCars(state),
         isLoading: state.table.isLoading,
         currentPage: state.table.currentPage,
         carsPerPage: state.table.carsPerPage
@@ -43,4 +43,4 @@ let mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {getCars,setCurrentPage,setSortParams})(TableContainer);
+export default connect(mapStateToProps, {getCars,setCurrentPage,setSortParams,setTenantFilter})(TableContainer);

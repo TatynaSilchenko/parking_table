@@ -1,12 +1,13 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {setSorted} from "../../redux/TableReducer";
-
 
 const Table = ({cars, ...props}) => {
     //Get column's name from state
     const columns = useSelector(state => state.table.columns);
+    const searchTenant = useSelector(state => state.table.tenantFilter);
+
+
     const rows = () => {
         return cars.map(item => row(item))
     };
@@ -30,9 +31,11 @@ const Table = ({cars, ...props}) => {
     };
 
     const headerColumns = () => Object.keys(columns).map(key => {
+        //todo:another_arrow
         if (key === "car_tenant" || key === "car_number") {
             return <th key={key} width={columns[key].width}>
                 {columns[key].label}
+
                 <div>
                     <FontAwesomeIcon icon="sort-down" size="sm" onClick={() => sort(key)}/>
                     {/*<FontAwesomeIcon icon="sort-up" size="sm"  onClick={() => sort('car_tenant')}/>*/}
@@ -45,20 +48,25 @@ const Table = ({cars, ...props}) => {
 
     const sort = (column) => {
         props.setSortParams(column);
-        // const isSorted = sorted[type];
-        // let direction = isSorted ? 1 : -1;
-        // const sortedData = [...cars].sort((a, b) => {
-        //     if (a[type] === b[type]) return 0;
-        //     return a[type] > b[type] ? direction : direction * -1
-        //
-        // })
-        // this.state.sorted[type] = !isSorted;
-        // this.props.setUsers(sortedData)
-    }
+    };
+
+    const changeTenantHandler=(e)=>{
+        props.setTenantFilter(e.currentTarget.value);
+    };
 
     return (
         <div className="container-fluid">
             {/*<h1>Cars</h1>*/}
+            <div className="filters">
+                <div className="filter_tenant">
+                <span>Tenant:</span>
+                <input type="text" placeholder="Enter tenant's name" onChange={changeTenantHandler} value={searchTenant}/>
+                </div>
+                <div className="filter_parked_cars">
+                    <span>Parked:</span>
+                    <input type="text" placeholder="in" />
+                </div>
+            </div>
             <table className="table table-light table-hover" style={{width: "100%"}}>
                 <thead className="tableHead">
                 <tr>
