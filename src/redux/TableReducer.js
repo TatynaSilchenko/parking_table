@@ -5,6 +5,7 @@ const SET_CARS = "TABLE/SET_CARS";
 const SET_CURRENT_PAGE = "TABLE/SET_CURRENT_PAGE";
 const SET_SORT_PARAMS = "TABLE/SET_SORT_PARAMS";
 const SET_TENANT_FILTER = "TABLE/SET_TENANT_FILTER";
+const SET_PARKED_FILTER = "TABLE/SET_PARKED_FILTER";
 
 const initialState = {
     columns: {
@@ -62,6 +63,8 @@ const TableReducer = (state = initialState, action) => {
             return {...state, currentPage: action.number};
         case SET_TENANT_FILTER:
             return {...state, tenantFilter: action.value};
+        case SET_PARKED_FILTER:
+            return {...state, parkedFilter: action.value};
         case SET_SORT_PARAMS:
             return {...state, sortParams: {...state.sortParams,dataField:action.column,
                     direction:state.sortParams.direction==="asc"?"desc":"asc"}};
@@ -76,6 +79,7 @@ export const setCars = (cars) => ({type: SET_CARS, cars});
 export const setCurrentPage = (number) => ({type: SET_CURRENT_PAGE, number});
 export const setSortParams = (column) => ({type: SET_SORT_PARAMS, column});
 export const setTenantFilter = (value) => ({type: SET_TENANT_FILTER, value});
+export const setParkedFilter = (value) => ({type: SET_PARKED_FILTER, value});
 
 export const getCars = () => async (dispatch) => {
     try {

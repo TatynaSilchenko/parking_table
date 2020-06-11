@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import React, {useEffect} from "react";
 import Table from "./Table";
 import Spinner from "../../assets/Spinner/Spinner";
-import {getCars, setCurrentPage, setSortParams, setTenantFilter} from "../../redux/TableReducer";
+import {getCars, setCurrentPage, setParkedFilter, setSortParams, setTenantFilter} from "../../redux/TableReducer";
 import Pagination from "../Pagenation/Pagination";
 import {getFilteredCarCars} from "../../redux/Selectors/selector";
 
@@ -43,4 +43,4 @@ let mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {getCars,setCurrentPage,setSortParams,setTenantFilter})(TableContainer);
+export default connect(mapStateToProps, {getCars,setCurrentPage,setSortParams,setTenantFilter,setParkedFilter})(TableContainer);

@@ -6,6 +6,7 @@ const Table = ({cars, ...props}) => {
     //Get column's name from state
     const columns = useSelector(state => state.table.columns);
     const searchTenant = useSelector(state => state.table.tenantFilter);
+    const searchParked = useSelector(state => state.table.parkedFilter);
 
 
     const rows = () => {
@@ -53,6 +54,9 @@ const Table = ({cars, ...props}) => {
     const changeTenantHandler=(e)=>{
         props.setTenantFilter(e.currentTarget.value);
     };
+    const changeParkedHandler=(e)=>{
+        props.setParkedFilter(e.currentTarget.value);
+    };
 
     return (
         <div className="container-fluid">
@@ -64,7 +68,7 @@ const Table = ({cars, ...props}) => {
                 </div>
                 <div className="filter_parked_cars">
                     <span>Parked:</span>
-                    <input type="text" placeholder="in" />
+                    <input type="text" placeholder="in" onChange={changeParkedHandler} value={searchParked}/>
                 </div>
             </div>
             <table className="table table-light table-hover" style={{width: "100%"}}>

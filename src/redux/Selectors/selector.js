@@ -18,7 +18,7 @@ export const getSortColomn = createSelector(getCars, sortSelector,
                 return a[sortParams.dataField]?.name.toLowerCase() > b[sortParams.dataField]?.name.toLowerCase()
                     ? sortDirection : sortDirection * -1
             });
-               return sortedData
+            return sortedData
         }
         if (sortParams.dataField === "car_number") {
             let sortDirection = sortParams.direction === "asc" ? 1 : -1;
@@ -31,11 +31,19 @@ export const getSortColomn = createSelector(getCars, sortSelector,
         return cars
     });
 
-export const getFilteredCarCars =createSelector(getSortColomn,getTenantFilter,getParkedFilter,
-    (cars,tenantFilter,parkedFilter)=>{
-        if (!tenantFilter) return cars;
-        return cars.filter(c=> {//todo:remove return
+export const getFilteredCarCars = createSelector(getSortColomn, getTenantFilter, getParkedFilter,
+    (cars, tenantFilter, parkedFilter) => {
+
+        if ((!tenantFilter) && (!parkedFilter)) return cars;
+        if (tenantFilter && parkedFilter) return cars.filter(c => {//todo:remove return
                 return c.car_tenant.name.toLowerCase().includes(tenantFilter.toLowerCase())
             }
-        )
+        ).filter(c=>c.parked.toLowerCase().indexOf(parkedFilter.toLowerCase())>-1)
+        return !parkedFilter ? cars.filter(c => {//todo:remove return
+            return c.car_tenant.name.toLowerCase().includes(tenantFilter.toLowerCase())
+        }) : cars.filter(c => {//todo:remove return
+            return c.parked.toLowerCase().indexOf(parkedFilter.toLowerCase())>-1
+        })
+
+
     });
