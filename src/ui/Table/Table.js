@@ -1,12 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import NewCar from "../NewCarForm/NewCar";
+import Settings from "../Settings/Settings";
+import Pagination from "../Pagenation/Pagination";
 
-const Table = ({cars, ...props}) => {
+const Table = React.memo(({cars, ...props}) => {
     //Get column's name from state
     const columns = useSelector(state => state.table.columns);
-    const searchTenant = useSelector(state => state.table.tenantFilter);
-    const searchParked = useSelector(state => state.table.parkedFilter);
+    // const searchTenant = useSelector(state => state.table.tenantFilter);
+    // const searchParked = useSelector(state => state.table.parkedFilter);
+
+    // const [isEditeMode, setIsEditeMode] = useState(false);
 
 
     const rows = () => {
@@ -39,7 +44,6 @@ const Table = ({cars, ...props}) => {
 
                 <div>
                     <FontAwesomeIcon icon="sort-down" size="sm" onClick={() => sort(key)}/>
-                    {/*<FontAwesomeIcon icon="sort-up" size="sm"  onClick={() => sort('car_tenant')}/>*/}
                 </div>
             </th>
         }
@@ -51,39 +55,25 @@ const Table = ({cars, ...props}) => {
         props.setSortParams(column);
     };
 
-    const changeTenantHandler=(e)=>{
-        props.setTenantFilter(e.currentTarget.value);
-    };
-    const changeParkedHandler=(e)=>{
-        props.setParkedFilter(e.currentTarget.value);
-    };
-
     return (
-        <div className="container-fluid">
-            {/*<h1>Cars</h1>*/}
-            <div className="filters">
-                <div className="filter_tenant">
-                <span>Tenant:</span>
-                <input type="text" placeholder="Enter tenant's name" onChange={changeTenantHandler} value={searchTenant}/>
-                </div>
-                <div className="filter_parked_cars">
-                    <span>Parked:</span>
-                    <input type="text" placeholder="in" onChange={changeParkedHandler} value={searchParked}/>
-                </div>
+        <div className="app-wrapper">
+            <Settings setTenantFilter={props.setTenantFilter} setParkedFilter={props.setParkedFilter}/>
+            <div className="container-fluid">
+                <table className="table table-light table-hover" style={{width: "100%"}}>
+                    <thead className="tableHead">
+                    <tr>
+                        {headerColumns()}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {rows()}
+                    </tbody>
+                </table>
+                <Pagination postsPerPage={props.carsPerPage} totalCountPosts={props.totalCountPosts}
+                            setCurrentPage={props.setCurrentPage}/>
             </div>
-            <table className="table table-light table-hover" style={{width: "100%"}}>
-                <thead className="tableHead">
-                <tr>
-                    {headerColumns()}
-                </tr>
-                </thead>
-                <tbody>
-                {rows()}
-                </tbody>
-            </table>
-            {/*{cars[0].number}*/}
         </div>
     );
-};
+});
 
 export default Table;

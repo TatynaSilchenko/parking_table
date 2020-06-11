@@ -13,14 +13,6 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-export const MainApp=()=>{
-
-};
-export const useCustomHook=(deafValue)=>{
-    const [value,setValue]=useState(deafValue);
-    
-return [value,setValue]
-};
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

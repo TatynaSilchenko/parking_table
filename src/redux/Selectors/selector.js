@@ -31,7 +31,7 @@ export const getSortColomn = createSelector(getCars, sortSelector,
         return cars
     });
 
-export const getFilteredCarCars = createSelector(getSortColomn, getTenantFilter, getParkedFilter,
+export const getDataCarCars = createSelector(getSortColomn, getTenantFilter, getParkedFilter,
     (cars, tenantFilter, parkedFilter) => {
 
         if ((!tenantFilter) && (!parkedFilter)) return cars;

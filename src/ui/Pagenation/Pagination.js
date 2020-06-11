@@ -1,6 +1,10 @@
 import React from "react";
 
-const Pagination = ({postsPerPage, totalCountPosts, paginate}) => {
+const Pagination = React.memo(({postsPerPage, totalCountPosts, ...props}) => {
+    //Change page
+    const paginate = (number) => {
+        props.setCurrentPage(number)
+    };
     const pageNumber = [];
     for (let i = 1; i <= Math.ceil(totalCountPosts / postsPerPage); i++) {
         pageNumber.push(i)
@@ -17,6 +21,6 @@ const Pagination = ({postsPerPage, totalCountPosts, paginate}) => {
             </ul>
         </nav>
     );
-};
+});
 
 export default Pagination;

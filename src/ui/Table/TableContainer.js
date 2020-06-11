@@ -4,7 +4,7 @@ import Table from "./Table";
 import Spinner from "../../assets/Spinner/Spinner";
 import {getCars, setCurrentPage, setParkedFilter, setSortParams, setTenantFilter} from "../../redux/TableReducer";
 import Pagination from "../Pagenation/Pagination";
-import {getFilteredCarCars} from "../../redux/Selectors/selector";
+import {getDataCarCars} from "../../redux/Selectors/selector";
 
 const TableContainer = ({carsPerPage,cars,currentPage,...props}) => {
     //load data
@@ -18,24 +18,21 @@ const TableContainer = ({carsPerPage,cars,currentPage,...props}) => {
     const firstCarIndex = lastCarIndex - carsPerPage;
     const currentCars= cars&&cars.slice(firstCarIndex, lastCarIndex);
 
-    //Change page
-    const paginate = (number) => {
-        props.setCurrentPage(number)
-    };
+
 
     //preloader
     if (props.isLoading) return <Spinner/>;
     return <>
-        {cars&&<><Table cars ={currentCars}{...props}/>
-        <Pagination postsPerPage={carsPerPage} totalCountPosts={cars.length}
-                    paginate={paginate}/></>}
+        {cars&&<><Table carsPerPage={carsPerPage} totalCountPosts={cars.length} cars ={currentCars}{...props}/>
+        {/*<Pagination postsPerPage={carsPerPage} totalCountPosts={cars.length}*/}
+        {/*            setCurrentPage={props.setCurrentPage}/>*/}
+                    </>}
     </>;
 };
 
 let mapStateToProps = (state) => {
     return {
-        // cars: getSortColomn(state),
-        cars: getFilteredCarCars(state),
+        cars: getDataCarCars(state),
         isLoading: state.table.isLoading,
         currentPage: state.table.currentPage,
         carsPerPage: state.table.carsPerPage
